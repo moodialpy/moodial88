@@ -70,15 +70,6 @@
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        label img {
-            width: 20px;
-            height: 20px;
-            opacity: 0.8;
         }
 
         textarea {
@@ -124,15 +115,6 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        button img {
-            width: 18px;
-            height: 18px;
         }
 
         #pasteBtn {
@@ -163,6 +145,10 @@
             display: inline-block;
         }
 
+        .icon {
+            display: inline-block;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 2rem;
@@ -184,24 +170,15 @@
         <p class="subtitle">Transform your text into small caps style</p>
 
         <div class="box">
-            <label for="textInput">
-                <img src="input-icon.png" alt="">
-                Input Text
-            </label>
+            <label for="textInput">Input Text</label>
             <textarea id="textInput" placeholder="Type or paste your text here..."></textarea>
         </div>
 
         <div class="box">
-            <label for="textOutput">
-                <img src="output-icon.png" alt="">
-                Small Caps Output
-            </label>
+            <label for="textOutput">Small Caps Output</label>
             <textarea id="textOutput" placeholder="Your converted text will appear here..." readonly></textarea>
             <div class="button-group">
-                <button id="copyBtn">
-                    <img src="copy-icon.png" alt="" class="icon">
-                    Copy
-                </button>
+                <button id="copyBtn">Copy</button>
             </div>
         </div>
     </div>
@@ -229,10 +206,10 @@
         copyBtn.addEventListener('click', async () => {
             try {
                 await navigator.clipboard.writeText(textOutput.value);
-                const originalHTML = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<img src="check-icon.png" alt="" class="icon">Copied!';
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = 'Copied!';
                 setTimeout(() => {
-                    copyBtn.innerHTML = originalHTML;
+                    copyBtn.textContent = originalText;
                 }, 2000);
             } catch {
                 alert('Failed to copy text');
