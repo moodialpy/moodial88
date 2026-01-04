@@ -5,16 +5,41 @@
     <title>Convertitore Small Caps</title>
     <style>
         body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
-        textarea { width: 100%; height: 120px; font-size: 1.2rem; padding: 0.5rem; }
-        #output { margin-top: 1rem; font-size: 1.4rem; color: #333; min-height: 60px; }
-        button { margin-top: 0.5rem; padding: 0.5rem 1rem; font-size: 1rem; }
+        textarea {
+            width: 100%;
+            height: 120px;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            resize: vertical;
+        }
+        textarea[readonly] {
+            background: #e0e0e0;
+            cursor: default;
+        }
+        button {
+            margin: 0.3rem 0.3rem 0.3rem 0;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+        .box {
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
     <h1>Convertitore Small Caps</h1>
-    <textarea id="textInput" placeholder="Scrivi qui il testo..."></textarea>
-    <div id="output"></div>
-    <button id="copyBtn">Copia negli appunti</button>
+
+    <div class="box">
+        <textarea id="textInput" placeholder="Scrivi qui il testo..."></textarea>
+        <br>
+        <button id="pasteBtn">Paste from clipboard</button>
+    </div>
+
+    <div class="box">
+        <textarea id="textOutput" placeholder="Output" readonly></textarea>
+        <br>
+        <button id="copyBtn">Copy to clipboard</button>
+    </div>
 
     <script>
         let smallCapsMap = {};
@@ -22,13 +47,12 @@
         // Carica la mappa dal JSON
         fetch('small_caps.json')
             .then(response => response.json())
-            .then(data => {
-                smallCapsMap = data;
-            });
+            .then(data => { smallCapsMap = data; });
 
         const textInput = document.getElementById('textInput');
-        const output = document.getElementById('output');
+        const textOutput = document.getElementById('textOutput');
         const copyBtn = document.getElementById('copyBtn');
+        const pasteBtn = document.getElementById('pasteBtn');
 
         // Funzione di conversione
         function toSmallCaps(text) {
@@ -37,14 +61,25 @@
 
         // Aggiornamento live
         textInput.addEventListener('input', () => {
-            output.textContent = toSmallCaps(textInput.value);
+            textOutput.value = toSmallCaps(textInput.value);
         });
 
-        // Copia negli appunti
+        // Copia output negli appunti
         copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(output.textContent)
+            navigator.clipboard.writeText(textOutput.value)
                 .then(() => alert('Testo copiato negli appunti!'))
                 .catch(err => alert('Errore: impossibile copiare'));
+        });
+
+        // Paste dall’appunti nel box input
+        pasteBtn.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                textInput.value = text;
+                textOutput.value = toSmallCaps(text);
+            } catch (err) {
+                alert('Errore: impossibile leggere dagli appunti');
+            }
         });
     </script>
 </body>
