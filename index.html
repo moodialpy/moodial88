@@ -1,86 +1,246 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Convertitore Small Caps</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Small Caps Converter</title>
     <style>
-        body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 2rem;
+        }
+
+        .container {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            padding: 3rem;
+            max-width: 700px;
+            width: 100%;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #3b82f6;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .box {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        label img {
+            width: 20px;
+            height: 20px;
+            opacity: 0.8;
+        }
+
         textarea {
             width: 100%;
-            height: 120px;
-            font-size: 1.2rem;
-            padding: 0.5rem;
-            resize: vertical;
+            height: 130px;
+            font-size: 1.1rem;
+            padding: 1rem;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            resize: none;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #0f172a;
+            color: #e2e8f0;
         }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
         textarea[readonly] {
-            background: #e0e0e0;
+            background: #1e293b;
             cursor: default;
         }
-        button {
-            margin: 0.3rem 0.3rem 0.3rem 0;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
         }
-        .box {
-            margin-bottom: 1rem;
+
+        button {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        button img {
+            width: 18px;
+            height: 18px;
+        }
+
+        #pasteBtn {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+
+        #pasteBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        #copyBtn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        #copyBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .icon {
+            display: inline-block;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Convertitore Small Caps</h1>
+    <div class="container">
+        <h1>Sᴍᴀʟʟ Cᴀᴘs Cᴏɴᴠᴇʀᴛᴇʀ</h1>
+        <p class="subtitle">Transform your text into small caps style</p>
 
-    <div class="box">
-        <textarea id="textInput" placeholder="Scrivi qui il testo..."></textarea>
-        <br>
-        <button id="pasteBtn">Paste from clipboard</button>
-    </div>
+        <div class="box">
+            <label for="textInput">
+                <img src="input-icon.png" alt="">
+                Input Text
+            </label>
+            <textarea id="textInput" placeholder="Type or paste your text here..."></textarea>
+        </div>
 
-    <div class="box">
-        <textarea id="textOutput" placeholder="Output" readonly></textarea>
-        <br>
-        <button id="copyBtn">Copy to clipboard</button>
+        <div class="box">
+            <label for="textOutput">
+                <img src="output-icon.png" alt="">
+                Small Caps Output
+            </label>
+            <textarea id="textOutput" placeholder="Your converted text will appear here..." readonly></textarea>
+            <div class="button-group">
+                <button id="copyBtn">
+                    <img src="copy-icon.png" alt="" class="icon">
+                    Copy
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
         let smallCapsMap = {};
 
-        // Carica la mappa dal JSON
         fetch('small_caps.json')
             .then(response => response.json())
-            .then(data => { smallCapsMap = data; });
+            .then(data => { smallCapsMap = data; })
+            .catch(err => console.error('Error loading small_caps.json:', err));
 
         const textInput = document.getElementById('textInput');
         const textOutput = document.getElementById('textOutput');
         const copyBtn = document.getElementById('copyBtn');
-        const pasteBtn = document.getElementById('pasteBtn');
 
-        // Funzione di conversione
         function toSmallCaps(text) {
             return text.split('').map(c => smallCapsMap[c] || c).join('');
         }
 
-        // Aggiornamento live
         textInput.addEventListener('input', () => {
             textOutput.value = toSmallCaps(textInput.value);
         });
 
-        // Copia output negli appunti
-        copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(textOutput.value)
-                .then(() => alert('Testo copiato negli appunti!'))
-                .catch(err => alert('Errore: impossibile copiare'));
-        });
-
-        // Paste dall’appunti nel box input
-        pasteBtn.addEventListener('click', async () => {
+        copyBtn.addEventListener('click', async () => {
             try {
-                const text = await navigator.clipboard.readText();
-                textInput.value = text;
-                textOutput.value = toSmallCaps(text);
-            } catch (err) {
-                alert('Errore: impossibile leggere dagli appunti');
+                await navigator.clipboard.writeText(textOutput.value);
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<img src="check-icon.png" alt="" class="icon">Copied!';
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHTML;
+                }, 2000);
+            } catch {
+                alert('Failed to copy text');
             }
         });
+
+        // Auto-focus input on load
+        textInput.focus();
     </script>
 </body>
 </html>
